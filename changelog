@@ -1,3 +1,9 @@
+freedombox-privoxy (3.0.19-2-2) unstable; urgency=low
+
+  * Drop use of dpatch.
+
+ -- FreedomBox Foundation <info@freedomboxfoundation.org>  Thu, 23 Aug 2012 16:27:23 -0400
+
 freedombox-privoxy (3.0.19-2-1) unstable; urgency=low
 
   * make_deb.sh: change 00list to series

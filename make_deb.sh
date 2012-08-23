@@ -9,8 +9,10 @@ prepend() {
 }
 dir_setup() {
     ## Copy privoxy dir, set dir aliases and apply upstream dpatch patches
-    PRIVDIR=`ls -d privoxy*| xargs | sed "s/ .*//"`
-    FBOXDIR=freedombox-privoxy-${version}
+    fakeversion=${version%-*}
+    origversion=${fakeversion%-*}
+    PRIVDIR=$PWD/privoxy-${origversion}
+    FBOXDIR=freedombox-privoxy-${fakeversion}
     echo PRIVDIR = ${PRIVDIR}
     echo FBOXDIR = ${FBOXDIR}
 
@@ -28,25 +30,24 @@ dir_setup() {
 
     rm -rf ${FBOXDIR}
     cp -r ${PRIVDIR} ${FBOXDIR}
-    ORIG=`ls -d privoxy*| xargs | sed -e"s/ .*//" -e "s/-/_/"`.orig.tar.gz
-    FBOXORIG=freedombox-privoxy_`head -n 1 ${PRIVDIR}/debian/changelog | sed -e"s/.*(\([^)]*\)).*/\1/"`.orig.tar.gz
+    ORIG=privoxy_${origversion}.orig.tar.gz
+    FBOXORIG=freedombox-privoxy_${fakeversion}.orig.tar.gz
     cp ${ORIG} ${FBOXORIG}
     cd ${FBOXDIR}
-    dpatch apply-all
+    QUILT_PATCHES=debian/patches quilt pop -a
+    sed -i -e '/^9/d' debian/patches/series
+    QUILT_PATCHES=debian/patches quilt push -a
     cd ../..
-    DEBDIR=`find Debian -maxdepth 1 -name "freedombox*" -type d`
-    #`ls -d Debian/freedombox-privoxy*| xargs | sed "s/ .*//"`
+    DEBDIR=$PWD/Debian/freedombox-privoxy-${fakeversion}
     echo DEBDIR = ${DEBDIR}
 }
 
 add_patch() {
     echo Adding patch $1
     mkdir -p privoxy
-    sed -i -e's/${patchcount}_$1.dpatch//' ${DEBDIR}/debian/patches/series
-    DEST=${DEBDIR}/debian/patches/${patchcount}_$1.dpatch
+    DEST=${DEBDIR}/debian/patches/${patchcount}_$1.patch
+    echo "${patchcount}_$1.patch" >> ${DEBDIR}/debian/patches/series
     diff -urNad ${DEBDIR}/$1 privoxy/$1 > ${DEST}
-    prepend "#! /bin/sh /usr/share/dpatch/dpatch-run\n## ${patchcount}_$1.dpatch by James Vasile <james@jamesvasile.com>" ${DEST}
-    echo ${patchcount}_$1.dpatch >> ${DEBDIR}/debian/patches/series
     patchcount=`expr ${patchcount} + 1` 
 }
 
@@ -109,6 +110,6 @@ update_rules
 update_doc_base
 
 cd Debian/${FBOXDIR}; 
-dpatch apply-all
+QUILT_PATCHES=debian/patches quilt push -a
 
-cp ../${PRIVDIR}/debian/init.d debian/init.d
+cp ${PRIVDIR}/debian/init.d debian/init.d
