@@ -115,6 +115,13 @@ def translate_ruleset(xml):
         do_rule(element)
 
 def main(rule_dir=rule_dir):
+
+    if len(sys.argv) > 2:
+        sys.exit(2)
+
+    if len(sys.argv) == 2:
+        rule_dir = sys.argv[1]
+
     default_ruleset = os.path.join(rule_dir, "default.rulesets")
     if os.path.exists(default_ruleset):
         with open(default_ruleset, 'r') as INF:
@@ -124,7 +131,6 @@ def main(rule_dir=rule_dir):
             if fname.endswith('.xml'):
                 with open(os.path.join(rule_dir, fname), 'r') as INF:
                     translate_ruleset(INF.read())
-
 
 if __name__ == "__main__":
     main()

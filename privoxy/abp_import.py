@@ -85,7 +85,7 @@ def main():
         print "You can get those lists from:"
         print easylist_url
         print easyprivacy_url
-        sys.exit()
+        sys.exit(2)
     else:
         infile = sys.argv[1]
 

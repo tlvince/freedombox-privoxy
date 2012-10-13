@@ -1,11 +1,23 @@
 freedombox-privoxy (3.0.19-2-2) unstable; urgency=low
 
-  * Drop use of dpatch.
+  * README: Cleanup instructions for installation. These instructions
+    work best on Debian wheezy, so say so.
 
- -- FreedomBox Foundation <info@freedomboxfoundation.org>  Thu, 23 Aug 2012 16:27:23 -0400
+ -- Ramkumar Chinchani <chinchani@gmail.com>  Thu, 11 Oct 2012 18:54:04 -0700
+
+freedombox-privoxy (3.0.19-2-2) unstable; urgency=low
+
+  * README, make_deb.sh, privoxy/debian/control: dpatch is ugly and
+    unnecessary
+
+ -- Clint Adams <clint@softwarefreedom.org>  Thu, 23 Aug 2012 16:17:27 -0400
 
 freedombox-privoxy (3.0.19-2-1) unstable; urgency=low
 
+  * make_deb.sh: move init.d over.
+  * https_everywhere_import.py: bug fix: don't reuse var names when
+    moving code
+  * README: add new depends and rename init.d
   * make_deb.sh: change 00list to series
   * README: note docbook-website depends
   * Makefile, https_everywhere_import.py: use release version of

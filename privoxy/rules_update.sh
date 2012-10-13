@@ -8,14 +8,18 @@ CONFDIR=/etc/privoxy
 test -x ${ABP} || exit 0
 test -x ${HTTPS} || exit 0
 
+changes=0
+
 copy_file() {
 	if [ ! -e ${CONFDIR}/$1 ]; then
 		cp $1 ${CONFDIR}
+		changes=`expr ${changes} + 1`
 	else
 		SHA1_NEW=$(sha1sum $1 | awk '{print $1}')
 		SHA1_OLD=$(sha1sum ${CONFDIR}/$1 | awk '{print $1}')
 		if [ ${SHA1_OLD} != ${SHA1_NEW} ]; then
 			cp $1 ${CONFDIR}
+			changes=`expr ${changes} + 1`
 		fi
 	fi
 }
@@ -45,9 +49,12 @@ update_abp easyprivacy
 update_abp easylist
 
 ## HTTPS everywhere ##
+# https_everywhere
 update_https_everywhere	https_everywhere
 
 popd
 
 rm -rf ${TMPDIR}
+
+[ ${changes} -ne 0 ] || exit 1
 
