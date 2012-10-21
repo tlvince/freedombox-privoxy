@@ -64,7 +64,7 @@ report any problems to:
      https://github.com/jvasile/freedombox-privoxy/issues
 
 Further work will include writing a script to test all the
-https-everywhere rules and discard the ones that are broken.  
+https-everywhere rules and discard the ones that are broken.
 As well as one to periodically check for new regexes.  Anybody
 who wants to contribute to writing that is welcome to jump on in!
 
@@ -101,3 +101,8 @@ Copyright © 2004-2007 Giorgio Maone <g.maone@informaction.com>
 This package downloads git2changelog, which is copyright 2012 James
 Vasile and released under GNU General Public License version 3 or
 later.
+
+### URL Compare
+
+Using the URL Compare tests requires GNU Parallel and Lynx.
+

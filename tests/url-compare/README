@@ -1,0 +1,47 @@
+URL Compare
+
+* Purpose
+
+  Script to ease privoxy testing.
+
+  This script accepts a list of URLs for input:
+
+      URL1 URL2 unique_ouput_filename
+
+  Downloads the urls in text only format and compares the urls.
+
+  Diffs and error_logs are stored in four separate folders, while a short
+  summary is printed.  Zero-length files are deleted to ease archiving.
+
+* Usage
+
+  $ ./url-compare.sh <rules.txt 2>error_log
+
+* Dependencies
+
+  parallel
+
+  lynx
+
+* Authors
+
+  B
+
+  D
+
+* License
+
+  Copyright (C) 2012: B, D
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later
+  version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program.  If not, see <http://www.gnu.org/licenses/>.
