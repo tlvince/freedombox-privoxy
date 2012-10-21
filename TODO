@@ -1,2 +1,2 @@
-* TODO Privoxy should use the released HTTPS Everywhere regexp ruleset
+* DONE Privoxy should use the released HTTPS Everywhere regexp ruleset
 * TODO Add enabling and disabling Privoxy to the Plinth UI
