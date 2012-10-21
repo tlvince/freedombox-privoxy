@@ -2,16 +2,17 @@ Source: freedombox-privoxy
 Section: web
 Priority: optional
 Maintainer: James Vasile <james@jamesvasile.com>
-Build-Depends: debhelper (>= 5.0.0), autoconf, autotools-dev, libpcre3-dev,
- jade, docbook-dsssl, docbook, w3m, sp, sgmlspl, groff, man2html, dpatch,
- zlib1g-dev, python-beautifulsoup, python-lxml, devscripts
-Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 9), autoconf, autotools-dev, libpcre3-dev,
+ jade, docbook-dsssl, docbook, w3m, sp, sgmlspl, groff, man2html, zlib1g-dev,
+ python-beautifulsoup, python-lxml, devscripts
+Standards-Version: 3.9.3
 Homepage: http://www.privoxy.org/
 
 Package: freedombox-privoxy
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, ${perl:Depends}, logrotate,
- adduser, lsb-base (>= 3.2-13), python-beautifulsoup, python-lxml
+ adduser, lsb-base (>= 3.2-13), python-beautifulsoup, python-lxml, 
+ cron, python, unzip
 Recommends: doc-base
 Replaces: privoxy
 Conflicts: privoxy

@@ -9,8 +9,10 @@ prepend() {
 }
 dir_setup() {
     ## Copy privoxy dir, set dir aliases and apply upstream dpatch patches
-    PRIVDIR=`ls -d privoxy*| xargs | sed "s/ .*//"`
-    FBOXDIR=freedombox-privoxy-${version}
+    fakeversion=${version%-*}
+    origversion=${fakeversion%-*}
+    PRIVDIR=$PWD/privoxy-${origversion}
+    FBOXDIR=freedombox-privoxy-${fakeversion}
     echo PRIVDIR = ${PRIVDIR}
     echo FBOXDIR = ${FBOXDIR}
 
@@ -28,23 +30,24 @@ dir_setup() {
 
     rm -rf ${FBOXDIR}
     cp -r ${PRIVDIR} ${FBOXDIR}
-    cp `ls -d privoxy*| xargs | sed -e"s/ .*//" -e "s/-/_/"`.orig.tar.gz freedombox-privoxy_`head -n 1 ${PRIVDIR}/debian/changelog | sed -e"s/.*(\([^)]*\)).*/\1/"`.orig.tar.gz
+    ORIG=privoxy_${origversion}.orig.tar.gz
+    FBOXORIG=freedombox-privoxy_${fakeversion}.orig.tar.gz
+    cp ${ORIG} ${FBOXORIG}
     cd ${FBOXDIR}
-    dpatch apply-all
+    QUILT_PATCHES=debian/patches quilt pop -a
+    sed -i -e '/^9/d' debian/patches/series
+    QUILT_PATCHES=debian/patches quilt push -a
     cd ../..
-    DEBDIR=`find Debian -maxdepth 1 -name "freedombox*" -type d`
-    #`ls -d Debian/freedombox-privoxy*| xargs | sed "s/ .*//"`
+    DEBDIR=$PWD/Debian/freedombox-privoxy-${fakeversion}
     echo DEBDIR = ${DEBDIR}
 }
 
 add_patch() {
     echo Adding patch $1
     mkdir -p privoxy
-    sed -i -e's/${patchcount}_$1.dpatch//' ${DEBDIR}/debian/patches/00list
-    DEST=${DEBDIR}/debian/patches/${patchcount}_$1.dpatch
+    DEST=${DEBDIR}/debian/patches/${patchcount}_$1.patch
+    echo "${patchcount}_$1.patch" >> ${DEBDIR}/debian/patches/series
     diff -urNad ${DEBDIR}/$1 privoxy/$1 > ${DEST}
-    prepend "#! /bin/sh /usr/share/dpatch/dpatch-run\n## ${patchcount}_$1.dpatch by James Vasile <james@jamesvasile.com>" ${DEST}
-    echo ${patchcount}_$1.dpatch >> ${DEBDIR}/debian/patches/00list
     patchcount=`expr ${patchcount} + 1` 
 }
 
@@ -68,10 +71,13 @@ update_rules() {
     sed -i -e"s/^\(DEBDIR.*\)privoxy/\1freedombox-privoxy/" rules 
     sed -i -e"s/\(cd.*DEBDIR.*\)privoxy/\1freedombox-privoxy/" rules
     sed -i -e"s/dh_installinit/dh_installinit --name=privoxy/" rules
-    mv init.d freedombox-privoxy.privoxy.init
+    mv init.d freedombox-privoxy.init
     sed -i '/install -m.*trust/i \\tinstall -m 0644 https_everywhere.action $(DEBDIR)/etc/privoxy/https_everywhere.action' rules
     sed -i '/install -m.*trust/i \\tinstall -m 0644 easyprivacy.action $(DEBDIR)/etc/privoxy/easyprivacy.action' rules
     sed -i '/install -m.*trust/i \\tinstall -m 0644 easylist.action $(DEBDIR)/etc/privoxy/easylist.action' rules
+    sed -i '/install -m.*trust/i \\tinstall -m 0755 abp_import.py $(DEBDIR)/usr/share/freedombox-privoxy/abp_import.py' rules
+    sed -i '/install -m.*trust/i \\tinstall -m 0755 https_everywhere_import.py $(DEBDIR)/usr/share/freedombox-privoxy/https_everywhere_import.py' rules
+    sed -i '/install -m.*trust/i \\tinstall -m 0755 rules_update.sh $(DEBDIR)/usr/share/freedombox-privoxy/rules_update.sh' rules
     popd
     #sed -i -e"s/\(cd.*DEBDIR.*\)privoxy/\1; ln -s freedombox-privoxy privoxy)\n\t(\1freedombox-privoxy/" rules
 }
@@ -84,6 +90,20 @@ update_doc_base() {
     popd
 }
 
+update_dirs() {
+    echo Updating dirs
+    ## update dirs
+    pushd ${DEBDIR}/debian
+    echo "usr/share/freedombox-privoxy" >> dirs
+    popd
+}
+
+update_cron() {
+    echo Updating cron script
+    ## update cron script
+    cp privoxy/freedombox-privoxy.cron.daily ${DEBDIR}/debian/freedombox-privoxy.cron.daily
+}
+
 ## Make working dir
 mkdir -p Debian
 cd Debian
@@ -91,9 +111,7 @@ cd Debian
 ## Install source package
 apt-get source privoxy
 echo You might need to \"apt-get build-dep privoxy\" as root
-
 dir_setup
-
 add_patch config
 add_patch match-all.action
 add_patch default.action
@@ -102,11 +120,18 @@ add_patch easyprivacy.action
 add_patch easylist.action
 add_patch https_everywhere.action
 add_patch filters.c
+add_patch abp_import.py
+add_patch https_everywhere_import.py
+add_patch rules_update.sh
 
 update_changelog
 update_control
 update_rules
 update_doc_base
+update_dirs
+update_cron
 
 cd Debian/${FBOXDIR}; 
-dpatch apply-all
+QUILT_PATCHES=debian/patches quilt push -a
+
+cp ${PRIVDIR}/debian/init.d debian/init.d

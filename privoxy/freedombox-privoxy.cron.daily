@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+# script to update freedombox-privoxy adblock-plus and https-everywhere rules
+#
+
+SCRIPTDIR=/usr/share/freedombox-privoxy
+SCRIPT=${SCRIPTDIR}/rules_update.sh
+
+test -x ${SCRIPT} || exit 0
+${SCRIPT} &> /dev/null && /etc/init.d/freedombox-privoxy restart
+
+

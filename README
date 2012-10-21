@@ -9,21 +9,25 @@ One thing many people seem to agree the FreedomBox should do is web
 filtering for privacy and ad-removal.  Toward that end, this is a first
 draft version of a privoxy package for FreedomBox.
 
-To use, you can do the usual
+To use:
+
+If you are on a Debian system:
+("wheezy" release)
+
+     cd freedombox-privoxy
+     sudo apt-get build-dep privoxy
+     sudo apt-get install logrotate docbook-website quilt python-beautifulsoup python-lxml devscripts
+     make deb
+     sudo apt-get purge privoxy # yes, this is necessary the first time
+     sudo dpkg -i Debian/*.deb
+     sudo service freedombox-privoxy restart
+
+Or, you can do the usual
+(after installing library dependencies)
 
      cd freedombox-privoxy
      make
      sudo make install
-
-Or if you are on a Debian system:
-
-     cd freedombox-privoxy
-     sudo apt-get build-dep privoxy
-     sudo apt-get install logrotate
-     make deb
-     sudo apt-get purge privoxy # yes, this is necessary the first time
-     sudo dpkg -i Debian/*.deb
-     sudo service privoxy restart
 
 If you want to see what I changed, look in
 Debian/freedombox-privacy*/debian/patches/9*.dpatch after doing the make
@@ -105,4 +109,3 @@ later.
 ### URL Compare
 
 Using the URL Compare tests requires GNU Parallel and Lynx.
-
