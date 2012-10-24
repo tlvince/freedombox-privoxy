@@ -3,6 +3,7 @@
 SCRIPTDIR=/usr/share/freedombox-privoxy
 ABP=${SCRIPTDIR}/abp_import.py
 HTTPS=${SCRIPTDIR}/https_everywhere_import.py
+HE_VERSION='2.2.3'
 CONFDIR=/etc/privoxy
 
 test -x ${ABP} || exit 0
@@ -31,8 +32,8 @@ update_abp() {
 }
 
 update_https_everywhere() {
-	wget https://www.eff.org/files/https-everywhere-2.1.xpi
-	unzip https-everywhere-2.1.xpi
+	wget https://www.eff.org/files/https-everywhere-${HE_VERSION}.xpi
+	unzip https-everywhere-${HE_VERSION}.xpi
 	${HTTPS} chrome/content/rules > $1.action
 	copy_file $1.action
 }

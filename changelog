@@ -1,3 +1,16 @@
+freedombox-privoxy (3.0.19-2-3) unstable; urgency=low
+
+  * Makefile, make_deb.sh, privoxy/abp_import.py,
+    privoxy/debian/control, privoxy/https_everywhere_import.py,
+    privoxy/rules_update.sh: addendum to the last commit
+  * abp_import.py, https_everywhere_import.py, privoxy/abp_import.py,
+    privoxy/freedombox-privoxy.cron.daily,
+    privoxy/https_everywhere_import.py, privoxy/rules_update.sh: add a
+    script driven by cron.daily that checks for new rules and
+    updates/restarts privoxy make_deb.sh cleanup some files reorg
+
+ -- Ramkumar Chinchani <chinchani@gmail.com>  Sat, 13 Oct 2012 02:23:56 -0700
+
 freedombox-privoxy (3.0.19-2-2) unstable; urgency=low
 
   * README: Cleanup instructions for installation. These instructions

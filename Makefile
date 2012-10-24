@@ -2,6 +2,7 @@ INSTALL_DIR=/etc/privoxy
 VERSION=`cat VERSION`
 PACKAGE_NAME=freedombox-privoxy
 DEBDIR=`ls -d Debian/privoxy*| xargs | sed "s/ .*//"`
+HE_VERSION='2.2.3'
 
 .PHONY: clean
 
@@ -25,8 +26,8 @@ vendor:
 vendor/https-everywhere-release:
 	@mkdir -p vendor/https-everywhere-release
 	@rm -rf vendor/https_everywhere-release
-	@cd vendor/https-everywhere-release; wget https://www.eff.org/files/https-everywhere-2.1.xpi
-	@cd vendor/https-everywhere-release; unzip https-everywhere-2.1.xpi
+	@cd vendor/https-everywhere-release; wget https://www.eff.org/files/https-everywhere-${HE_VERSION}.xpi
+	@cd vendor/https-everywhere-release; unzip https-everywhere-${HE_VERSION}.xpi
 
 vendor/https-everywhere:
 	@mkdir -p vendor
