@@ -72,6 +72,8 @@ def translate_ruleset(xml):
                 sys.stderr.write("Warning: match_rule attribute encountered in %s\n" % name)
             elif k == "platform":
                 sys.stderr.write("Warning: platform rule encountered in %s\n" % name)
+            elif k =="f":
+                sys.stderr.write("Warning: XML filename encountered %s\n" % element.attrib[k])
             else:
                 raise UnknownRulesetAttribute, [xml, element, k]
 
