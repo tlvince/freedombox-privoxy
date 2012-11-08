@@ -1,5 +1,15 @@
 freedombox-privoxy (3.0.19-2-3) unstable; urgency=low
 
+  * privoxy/https_everywhere_import.py: modify
+    https_everywhere_import.py to handle 3.x rulesets. (however, this
+    currently doesn't generate a privoxy-friendly output, yet!)
+  * Makefile, privoxy/rules_update.sh: update downloaded
+    https_everywhere ruleset version to the latest 2.x release (2.2.3)
+
+ -- Ramkumar Chinchani <chinchani@gmail.com>  Tue, 23 Oct 2012 23:30:53 -0700
+
+freedombox-privoxy (3.0.19-2-3) unstable; urgency=low
+
   * Makefile, make_deb.sh, privoxy/abp_import.py,
     privoxy/debian/control, privoxy/https_everywhere_import.py,
     privoxy/rules_update.sh: addendum to the last commit

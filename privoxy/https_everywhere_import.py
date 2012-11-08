@@ -13,6 +13,7 @@ Released under GPLv3 or later
 """
 
 import os, sys
+import re
 
 rule_dir = "vendor/https-everywhere-release/chrome/content/rules"
 if not os.path.exists(rule_dir):
@@ -91,15 +92,20 @@ def translate_ruleset(xml):
         print "#", name.encode("UTF-8")
         red_str = "{+redirect{"
         for rule_element in element.iter("rule"):
+            if re.search(r'\{\d+(,\d+)?\}', cleanup(name, rule_element.attrib['from'])):
+                print "### skipping privoxy-incompatible rule: %s" % cleanup(name, rule_element.attrib['from']);
+                continue
+
             red_str +=("s@%s@%s@" % (cleanup(name, rule_element.attrib['from']),
                                      cleanup(name, rule_element.attrib['to']))
                        +"\t"
                        ).encode("UTF-8")
         red_str = red_str.strip()
-        print"%s}}" % red_str
-        for t in target:
-            print t.encode("UTF-8")
-        print
+        if red_str:
+            print"%s}}" % red_str
+            for t in target:
+                print t.encode("UTF-8")
+            print
 
     try:
         xml = xml.replace("rule from host", "rule from")
