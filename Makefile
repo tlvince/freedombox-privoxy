@@ -25,8 +25,8 @@ vendor:
 	@mkdir -p vendor
 
 vendor/https-everywhere-release:
+	@rm -rf vendor/https-everywhere-release
 	@mkdir -p vendor/https-everywhere-release
-	@rm -rf vendor/https_everywhere-release
 	@cd vendor/https-everywhere-release; wget https://www.eff.org/files/https-everywhere-${HE_VERSION}.xpi
 	@cd vendor/https-everywhere-release; unzip https-everywhere-${HE_VERSION}.xpi
 
@@ -58,6 +58,6 @@ install: all
 	/etc/init.d/privoxy restart
 
 clean:
-	@rm -rf  vendor/https-everywhere 1000_config.dpatch Debian/privoxy* Debian/freedombox-privoxy* vendor/git2changelog
+	@rm -rf  vendor/https-everywhere vendor/https-everywhere-release 1000_config.dpatch Debian/privoxy* Debian/freedombox-privoxy* vendor/git2changelog
 	@cd privoxy; rm -rf easyprivacy.action easyprivacy.txt https_everywhere.action easylist.action easylist.txt 
 
