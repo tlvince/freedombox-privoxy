@@ -3,7 +3,8 @@
 SCRIPTDIR=/usr/share/freedombox-privoxy
 ABP=${SCRIPTDIR}/abp_import.py
 HTTPS=${SCRIPTDIR}/https_everywhere_import.py
-HE_VERSION='2.2.3'
+HE_VERSION='3.0.3'
+#HE_VERSION='latest'
 CONFDIR=/etc/privoxy
 
 test -x ${ABP} || exit 0

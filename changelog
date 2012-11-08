@@ -1,5 +1,14 @@
 freedombox-privoxy (3.0.19-2-3) unstable; urgency=low
 
+  * privoxy/https_everywhere_import.py: privoxy "redirect" action uses
+    pcrs commands which do not accept a {n,m}-style regular
+    expression. upstream https_everywhere 3.x rulesets use this style.
+    prune these during import.
+
+ -- Ramkumar Chinchani <chinchani@gmail.com>  Wed, 7 Nov 2012 16:27:18 -0800
+
+freedombox-privoxy (3.0.19-2-3) unstable; urgency=low
+
   * privoxy/https_everywhere_import.py: modify
     https_everywhere_import.py to handle 3.x rulesets. (however, this
     currently doesn't generate a privoxy-friendly output, yet!)
