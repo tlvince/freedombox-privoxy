@@ -1,3 +1,37 @@
+freedombox-privoxy (3.0.19-2-3) unstable; urgency=low
+
+  * Makefile, privoxy/rules_update.sh: point https_everywhere import
+    to upstream version 3.0.3
+  * privoxy/https_everywhere_import.py: privoxy "redirect" action uses
+    pcrs commands which do not accept a {n,m}-style regular
+    expression. upstream https_everywhere 3.x rulesets use this style.
+    prune these during import.
+
+ -- Ramkumar Chinchani <chinchani@gmail.com>  Wed, 7 Nov 2012 16:34:56 -0800
+
+freedombox-privoxy (3.0.19-2-3) unstable; urgency=low
+
+  * privoxy/https_everywhere_import.py: modify
+    https_everywhere_import.py to handle 3.x rulesets. (however, this
+    currently doesn't generate a privoxy-friendly output, yet!)
+  * Makefile, privoxy/rules_update.sh: update downloaded
+    https_everywhere ruleset version to the latest 2.x release (2.2.3)
+
+ -- Ramkumar Chinchani <chinchani@gmail.com>  Tue, 23 Oct 2012 23:30:53 -0700
+
+freedombox-privoxy (3.0.19-2-3) unstable; urgency=low
+
+  * Makefile, make_deb.sh, privoxy/abp_import.py,
+    privoxy/debian/control, privoxy/https_everywhere_import.py,
+    privoxy/rules_update.sh: addendum to the last commit
+  * abp_import.py, https_everywhere_import.py, privoxy/abp_import.py,
+    privoxy/freedombox-privoxy.cron.daily,
+    privoxy/https_everywhere_import.py, privoxy/rules_update.sh: add a
+    script driven by cron.daily that checks for new rules and
+    updates/restarts privoxy make_deb.sh cleanup some files reorg
+
+ -- Ramkumar Chinchani <chinchani@gmail.com>  Sat, 13 Oct 2012 02:23:56 -0700
+
 freedombox-privoxy (3.0.19-2-2) unstable; urgency=low
 
   * README: Cleanup instructions for installation. These instructions
