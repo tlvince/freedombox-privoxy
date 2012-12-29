@@ -23,6 +23,68 @@ URL Compare
 
   lynx
 
+* Interpreting Results
+
+  In a recent test run, I received the following results:
+
+  :  01: Test complete - 100 URL pairs were checked:
+  :  02:      64 identical url pairs
+  :  03:       3 failed on diff check
+  :  04:      27 failed on https request
+  :  05:       6 failed on http request
+  :  06:
+  :  07:      10 Alert!: Connection failed (too many retries).
+  :  08:       3 Alert!: HTTP/1.1 404 Not Found
+  :  09:       6 Alert!: Unable to access document.
+  :  10:      12 Alert!: Unable to connect to remote host.
+  :  11:       4 Alert!: Unable to make secure connection to remote host.
+  :  12:       6 Alert!: Unexpected network read error; connection aborted.
+  :  13:       4 HTTP request sent; waiting for response.
+  :  14:       2 HTTP/1.1 301 Moved Permanently
+  :  15:       3 Can't Access `https
+  :  16:       3 lynx: Can't access startfile
+  :  17:       5 lynx: Can't access startfile http
+  :  18:      21 lynx: Can't access startfile https
+
+  Lines 1 - 5 are the summary, while lines 7 - 18 are error details.
+
+  These results show that in the successful requests, the same page was
+  delivered by HTTPS and HTTP a bit more than 95% of the time (lines 2 and 3:
+  3/(64+3) = 4.5% error rate).  However, communication failed completely about a
+  third of the time (lines 1, 4, and 5: (27+6)/100 = 33% communication failure
+  rate).
+
+  Understand that this script is analyzing the output of four different
+  processes:
+
+  1. Website operators posting content.
+
+  2. HTTPS-Everywhere developers who organize the HTTP/HTTPS url pairs into
+     rules.
+
+  3. The downloading perl script.
+
+  4. The url-compare bash script.
+
+  Any miscommunication between any of these links can cause failures,
+  particularly when the HTTPS-Everywhere ruleset becomes outdated.
+
+  Some urls may fail for request specific reasons (lines 18 and 4: 21 - 27%
+  request-specific failure rate).  For example, the site might respond with
+  different data, or even refuse to load at all, based on user-agent or
+  geo-location.
+
+  Client-side issues can also cause connection trouble.  For example, using a
+  public wifi network that has a landing page (usually requiring some sort of
+  terms of service agreement) will cause HTTP requests to show an unexpected
+  result, while HTTPS requests should fail to load altogether.
+
+  Finally, page differences (line 3) need to be reviewed manually, as they
+  aren't necessarily meaningful.  If the only difference between the HTTP and
+  HTTPS versions of a page is a banner asking you to use HTTPS, then it's a
+  pretty silly difference.  Helpfully, the script diffs each request in a unique
+  directory, so you can easily analyse what was different.
+
 * Authors
 
   Boruch Baum <boruch_baum@gmx.com>
