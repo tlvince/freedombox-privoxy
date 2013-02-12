@@ -2,8 +2,7 @@ INSTALL_DIR=/etc/privoxy
 VERSION=`cat VERSION`
 PACKAGE_NAME=freedombox-privoxy
 DEBDIR=`ls -d Debian/privoxy*| xargs | sed "s/ .*//"`
-HE_VERSION='3.0.3'
-#HE_VERSION='latest'
+HE_VERSION='latest'
 
 .PHONY: clean
 
